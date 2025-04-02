@@ -1,27 +1,30 @@
 "use client";
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit' 
-
 import {Color} from '@tiptap/extension-color'
 import Highlight from '@tiptap/extension-highlight'
 import TaskItem from '@tiptap/extension-task-item'
 import TaskList from '@tiptap/extension-task-list'
-
+import TextAlign from '@tiptap/extension-text-align'
 import Table from '@tiptap/extension-table'
 import TableCell from '@tiptap/extension-table-cell'
 import TableHeader from '@tiptap/extension-table-header'
 import TableRow from '@tiptap/extension-table-row'
 import Link from '@tiptap/extension-link'
-
 import Image from '@tiptap/extension-image'
 import {ImageResize} from 'tiptap-extension-resize-image'
-
 import Underline from '@tiptap/extension-underline'
-
-import { useEditorStore } from "@/store/use-editor-store";
-
 import FontFamily from '@tiptap/extension-font-family';
 import TextStyle from '@tiptap/extension-text-style';
+
+//Editor Store
+import { useEditorStore } from "@/store/use-editor-store";
+
+//Custom Extensions
+import { FontSizeExtension } from '@/app/extensions/font-size';
+import { LineHeightExtension } from '@/app/extensions/line-height';
+import Ruler from './ruler';
+
 
 
 export const Editor = () => {
@@ -29,6 +32,7 @@ export const Editor = () => {
     const {setEditor} = useEditorStore();
 
     const editor = useEditor({
+        immediatelyRender: false,
         onCreate({editor}){
             setEditor(editor);
         },
@@ -62,7 +66,15 @@ export const Editor = () => {
         },
         extensions: [
             StarterKit,
+            LineHeightExtension.configure({
+                types: ["paragraph", "heading"],
+                defaultLineHeight: "normal",
+            }),
+            FontSizeExtension,
             Color,
+            TextAlign.configure({
+                types: ["heading", "paragraph"],
+            }),
             Link.configure({
                 openOnClick: false,
                 autolink: true,
@@ -109,6 +121,7 @@ export const Editor = () => {
 
     return(
         <div className='size-full overflow-x-auto bg-[#F9FBFD] px-4 print:p-0 print:bg-white print:overflow-visible'>
+            <Ruler/>
             <div className='min-w-max flex justify-center w-[816px] py-4 print:py-0 mx-auto print:w-full print:min-w-0'>
                 <EditorContent editor={editor} />
             </div>

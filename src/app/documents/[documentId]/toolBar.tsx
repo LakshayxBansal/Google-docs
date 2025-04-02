@@ -25,6 +25,10 @@ import TextColorButton from "../Toolbar/textColor/page";
 import HighlightColorButton from "../Toolbar/HighlightButton/page";
 import LinkButton from "../Toolbar/LinkButton/page";
 import ImageButton from "../Toolbar/imageButton/page";
+import AlignButton from "../Toolbar/AlignButton/page";
+import ListButton from "../Toolbar/ListButton/page";
+import FontSizeButton from "../Toolbar/FontSizeButton/page";
+import LineHeightButton from "../Toolbar/LineHeightButton/page";
 
     
 
@@ -49,7 +53,7 @@ const ToolBarButton = ({ onClick, isActive, icon: Icon }: ToolBarButtonProps) =>
 };
 
 
-const ToolBar = () => {
+export default function ToolBar (){
     const { editor } = useEditorStore();
 
     const sections: {
@@ -141,6 +145,7 @@ const ToolBar = () => {
             <Separator orientation="vertical" className="h-6 bg-neutral-300" />
 
             <HeadingLevelButton/>
+            <FontSizeButton/>
             <Separator orientation="vertical" className="h-6 bg-neutral-300" />
 
             {sections[1].map((items) => (
@@ -151,6 +156,11 @@ const ToolBar = () => {
             <Separator orientation="vertical" className="h-6 bg-neutral-300" />
             <LinkButton/>
             <ImageButton/>
+            <AlignButton/>
+            <LineHeightButton/>
+
+
+            <ListButton/>
 
 
             {sections[2].map((items) => (
@@ -162,6 +172,5 @@ const ToolBar = () => {
     );
 };
 
-export default ToolBar;
 
 
