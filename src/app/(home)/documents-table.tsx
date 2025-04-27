@@ -63,6 +63,7 @@ export const DocumentsTable = ({
                     size="sm"
                     onClick={() => loadMore(5)}
                     disabled={status !== "CanLoadMore"}
+                    className="border border-separate border-neutral-700"
                 >
                     {status === "CanLoadMore" ? "Load more" : "End of documents"}
                 </Button>
