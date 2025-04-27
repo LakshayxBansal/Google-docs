@@ -1,10 +1,9 @@
+"use client"
 import { DropdownMenuContent } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 import { useEditorStore } from "@/store/use-editor-store";
 import { DropdownMenu, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
-import { AlignCenterIcon, AlignJustifyIcon, AlignLeftIcon, AlignRightIcon, ListCollapseIcon } from "lucide-react";
-
-
+import { ListCollapseIcon } from "lucide-react";
 
 export default function LineHeightButton(){
     const { editor } = useEditorStore();

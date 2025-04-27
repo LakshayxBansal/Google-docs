@@ -1,9 +1,8 @@
+"use client"
 import { DropdownMenuContent } from "@/components/ui/dropdown-menu";
 import { useEditorStore } from "@/store/use-editor-store";
-import { DropdownMenu, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
-import {CirclePicker, ColorResult, SketchPicker} from 'react-color';
-
-
+import { DropdownMenu, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { ColorResult, SketchPicker} from 'react-color';
 
 export default function TextColorButton(){
     const { editor } = useEditorStore();

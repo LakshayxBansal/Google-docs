@@ -1,3 +1,4 @@
+"use client"
 import { useEditorStore } from "@/store/use-editor-store";
 
 import {

@@ -1,11 +1,19 @@
 import { useRef, useState } from 'react';
 import { FaCaretDown } from 'react-icons/fa';
+import {useStorage , useMutation} from "@liveblocks/react/suspense"
+import { LEFT_MARGIN_DEFAULT, RIGHT_MARGIN_DEFAULT } from '@/constants/margin';
 
-const markers = Array.from({ length: 83 }, (_, i) => i + 1);
+const markers = Array.from({ length: 80 }, (_, i) => i+1);
 
 export default function Ruler() {
-  const [leftMargin, setLeftMargin] = useState(56);
-  const [rightMargin, setRightMargin] = useState(56);
+  const leftMargin = useStorage((root) => root.leftMargin) ?? LEFT_MARGIN_DEFAULT;
+  const setLeftMargin = useMutation(({storage},position : number) => {
+    storage.set("leftMargin",position);
+  },[])
+  const rightMargin = useStorage((root) => root.rightMargin) ?? RIGHT_MARGIN_DEFAULT;
+  const setRightMargin = useMutation(({storage},position : number) => {
+    storage.set("rightMargin",position);
+  },[])
 
   const [isDraggingLeft, setIsDraggingLeft] = useState(false);
   const [isDraggingRight, setIsDraggingRight] = useState(false);
@@ -48,11 +56,11 @@ export default function Ruler() {
   };
 
   const handleLeftDoubleClick = () => {
-    setLeftMargin(56);
+    setLeftMargin(LEFT_MARGIN_DEFAULT);
   };
 
   const handleRightDoubleClick = () => {
-    setRightMargin(56); 
+    setRightMargin(RIGHT_MARGIN_DEFAULT); 
   };
 
   return (
@@ -61,9 +69,9 @@ export default function Ruler() {
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseUp}
-      className="h-6 border-b border-gray-300 flex items-end relative select-none print:hidden"
+      className="w-[816px] mx-auto h-6 border-b border-gray-300 flex items-end relative select-none print:hidden"
     >
-      <div id="ruler-container" className="max-w-[816px] mx-auto w-full h-full relative">
+      <div id="ruler-container" className="w-full h-full relative">
         <Marker
           position={leftMargin}
           isLeft={true}
@@ -81,7 +89,9 @@ export default function Ruler() {
         <div className="absolute inset-x-0 bottom-0 h-full">
           <div className="relative h-full w-[816px]">
             {markers.map((marker) => {
-              const position = (marker * 816) / 82 - 1;
+              // const position = (marker * 816) / 82 - 1; // making changes here . this is the original
+              const position = (marker * 816) / 80 - 1;
+              //console.log("position of the marker", position);
 
               return (
                 <div key={marker} className="absolute bottom-0" style={{ left: `${position}px` }}>

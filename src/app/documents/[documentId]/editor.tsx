@@ -19,16 +19,28 @@ import TextStyle from '@tiptap/extension-text-style';
 
 //Editor Store
 import { useEditorStore } from "@/store/use-editor-store";
+import { useStorage } from '@liveblocks/react/suspense';
 
 //Custom Extensions
 import { FontSizeExtension } from '@/app/extensions/font-size';
 import { LineHeightExtension } from '@/app/extensions/line-height';
 import Ruler from './ruler';
+import { useLiveblocksExtension } from "@liveblocks/react-tiptap";
+import { Threads } from './Threads';
+import { LEFT_MARGIN_DEFAULT, RIGHT_MARGIN_DEFAULT } from '@/constants/margin';
 
+interface EditorProps {
+    initialContent ?: string | undefined;
+}
 
+export const Editor = ({initialContent} : EditorProps) => {
+    const leftMargin = useStorage((root) => root.leftMargin) ?? LEFT_MARGIN_DEFAULT;
+    const rightMargin = useStorage((root) => root.rightMargin) ?? RIGHT_MARGIN_DEFAULT;
 
-export const Editor = () => {
-
+    const liveblocks = useLiveblocksExtension({
+        initialContent,
+        offlineSupport_experimental : true // later might become offlineSupport
+    });
     const {setEditor} = useEditorStore();
 
     const editor = useEditor({
@@ -60,12 +72,15 @@ export const Editor = () => {
 
         editorProps:{
             attributes: {
-                style:'padding-left: 56px; padding-right: 56px;',
+                style:`padding-left: ${leftMargin}px; padding-right: ${rightMargin}px;`,
                 class: 'focus:outline-none border print:border-0 bg-white border-[#C7C7C7] flex flex-col min-h-[1054px] w-[816px] pt-10 pr-14 pb-10 cursor-text',
             }
         },
         extensions: [
-            StarterKit,
+            liveblocks,
+            StarterKit.configure({
+                history: false
+            }),
             LineHeightExtension.configure({
                 types: ["paragraph", "heading"],
                 defaultLineHeight: "normal",
@@ -100,22 +115,6 @@ export const Editor = () => {
             TableCell,
             Underline,
         ],
-        content: `
-        <table>
-          <tbody>
-            <tr>
-              <th>Name</th>
-              <th colspan="3">Description</th>
-            </tr>
-            <tr>
-              <td>Cyndi Lauper</td>
-              <td>Singer</td>
-              <td>Songwriter</td>
-              <td>Actress</td>
-            </tr>
-          </tbody>
-        </table>
-      `,
       })
 
 
@@ -124,6 +123,7 @@ export const Editor = () => {
             <Ruler/>
             <div className='min-w-max flex justify-center w-[816px] py-4 print:py-0 mx-auto print:w-full print:min-w-0'>
                 <EditorContent editor={editor} />
+                <Threads editor={editor} />
             </div>
         </div>
     )

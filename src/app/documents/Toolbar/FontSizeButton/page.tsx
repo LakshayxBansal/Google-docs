@@ -1,8 +1,6 @@
-import { DropdownMenuContent } from "@/components/ui/dropdown-menu";
-import { cn } from "@/lib/utils";
+"use client"
 import { useEditorStore } from "@/store/use-editor-store";
-import { Minus, MinusIcon, PlusIcon } from "lucide-react";
-import { parse } from "path";
+import { MinusIcon, PlusIcon } from "lucide-react";
 import { useState } from "react";
 
 

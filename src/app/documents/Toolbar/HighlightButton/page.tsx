@@ -1,10 +1,8 @@
-import { DropdownMenuContent } from "@/components/ui/dropdown-menu";
+"use client"
 import { useEditorStore } from "@/store/use-editor-store";
-import { DropdownMenu, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
+import { DropdownMenu, DropdownMenuTrigger,DropdownMenuContent } from "@/components/ui/dropdown-menu";
 import { HighlighterIcon } from "lucide-react";
-import {CirclePicker, ColorResult, SketchPicker} from 'react-color';
-
-
+import {ColorResult, SketchPicker} from 'react-color';
 
 export default function HighlightColorButton(){
     const { editor } = useEditorStore();
@@ -22,9 +20,6 @@ export default function HighlightColorButton(){
                     <HighlighterIcon className="size-4"/>
                     <div className="h-0.5 w-full" style={{backgroundColor: value}}/>
                 </button>
-                
-                    
-
             </DropdownMenuTrigger>
             <DropdownMenuContent className="p-0">
                 <SketchPicker
